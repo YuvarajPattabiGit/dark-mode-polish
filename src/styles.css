@@ -1968,3 +1968,25 @@
 .mock-site-nav > button:hover, .mock-hero-actions > button + button:hover { background: oklch(0.96 0.01 170); color: oklch(0.2 0.02 160); }
 .metric-foot { flex-wrap: wrap; row-gap: 2px; }
 .metric-foot > span:first-child { white-space: nowrap; }
+/* Icon boxes must keep fixed size inside flex rows */
+.job-notice > .job-icon, .workspace-api-card > .api-card-icon { flex: 0 0 auto; }
+.job-notice > .job-icon { width: 30px; height: 30px; }
+.workspace-api-card > .api-card-icon { width: 36px; height: 36px; }
+.job-notice > .notice-check { flex: 0 0 auto; }
+.notification-panel .job-notice + .job-notice { margin-top: 8px; }
+.health-score > .health-ring {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  line-height: 1;
+  background:
+    radial-gradient(closest-side, var(--card) 82%, transparent 84% 100%),
+    conic-gradient(var(--glow-mint) 98%, color-mix(in oklab, var(--glow-mint) 15%, transparent) 0);
+}
+.health-ring span { font-size: 20px; line-height: 1; }
+.health-ring small { line-height: 1; }
