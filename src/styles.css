@@ -1966,3 +1966,5 @@
   border-color: oklch(0.3 0.02 170 / 18%);
 }
 .mock-site-nav > button:hover, .mock-hero-actions > button + button:hover { background: oklch(0.96 0.01 170); color: oklch(0.2 0.02 160); }
+.metric-foot { flex-wrap: wrap; row-gap: 2px; }
+.metric-foot > span:first-child { white-space: nowrap; }
