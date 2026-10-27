@@ -1960,3 +1960,9 @@
 .conversation-event.visitor-event > div > time, .conversation-event.operator-event > div > time { text-align: right; }
 .integration-card { padding-top: 26px; }
 .integration-preview-tag { top: 8px; }
+.mock-site [data-slot="button"][class*="border"], .mock-site button[class*="border-input"], .mock-site-nav > button, .mock-hero-actions > button + button {
+  background: oklch(1 0 0 / 85%);
+  color: oklch(0.24 0.02 160);
+  border-color: oklch(0.3 0.02 170 / 18%);
+}
+.mock-site-nav > button:hover, .mock-hero-actions > button + button:hover { background: oklch(0.96 0.01 170); color: oklch(0.2 0.02 160); }
