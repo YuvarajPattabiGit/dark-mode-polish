@@ -1665,7 +1665,7 @@
 .event-tag:not(.human) { color: var(--glow-blue); background: color-mix(in oklab, var(--glow-blue) 12%, transparent); }
 .event-tag.human { color: var(--glow-amber); background: color-mix(in oklab, var(--glow-amber) 13%, transparent); }
 .conversation-event > div > span:not([class]) { display: block; margin-top: 4px; padding: 10px 13px; border-radius: 4px 14px 14px 14px; background: color-mix(in oklab, var(--card) 65%, transparent); border: 1px solid var(--glass-border); font-size: 12.5px; line-height: 1.55; }
-.conversation-event.visitor-event > div > span:not([class]), .conversation-event.operator-event > div > span:not([class]) { border-radius: 14px 4px 14px 14px; color: white; border: none; }
+.conversation-event.visitor-event > div > span:not([class]), .conversation-event.operator-event > div > span:not([class]) { border-radius: 14px 4px 14px 14px; color: var(--foreground); border: none; }
 .conversation-event.visitor-event > div > span:not([class]) { background: linear-gradient(130deg, color-mix(in oklab, var(--glow-blue) 30%, transparent), color-mix(in oklab, var(--glow-violet) 24%, transparent)); }
 .conversation-event.operator-event > div > span:not([class]) { background: linear-gradient(130deg, color-mix(in oklab, var(--glow-mint) 34%, transparent), color-mix(in oklab, var(--glow-blue) 22%, transparent)); }
 .inline-citation {
@@ -1955,3 +1955,8 @@
   .updated-label { display: none; }
   .panel { padding: 14px; }
 }
+.handoff-banner > .handoff-mark, .integration-banner > .integration-banner-icon { flex: 0 0 auto; width: 36px; height: 36px; }
+.conversation-event > div > time { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 9.5px; color: color-mix(in oklab, var(--muted-foreground) 75%, transparent); }
+.conversation-event.visitor-event > div > time, .conversation-event.operator-event > div > time { text-align: right; }
+.integration-card { padding-top: 26px; }
+.integration-preview-tag { top: 8px; }
