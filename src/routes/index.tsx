@@ -179,6 +179,13 @@ function KnowledgAI() {
   }, [crawlProgress > 0 && crawlProgress < 100]);
 
   useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("dark", dark);
+    root.classList.toggle("light", !dark);
+    root.style.colorScheme = dark ? "dark" : "light";
+  }, [dark]);
+
+  useEffect(() => {
     const handleNotice = (event: Event) => setSourceNotice((event as CustomEvent<string>).detail);
     window.addEventListener("workspace-notice", handleNotice);
     return () => window.removeEventListener("workspace-notice", handleNotice);
@@ -263,7 +270,7 @@ function KnowledgAI() {
               <div className="heading-actions"><span className="updated-label"><span className="status-dot" /> All systems operational</span>{page === "Knowledge" && <Button variant="default" onClick={() => setPromoteOpen(true)} disabled={promoted}><ArrowUpRight size={16} />{promoted ? "Live in production" : "Promote to production"}</Button>}</div>
             </div>
             {sourceNotice && <div className="inline-notice"><CheckCircle2 size={16} />{sourceNotice}<Button variant="ghost" size="icon" onClick={() => setSourceNotice("")} aria-label="Dismiss notice"><X /></Button></div>}
-            {page === "Knowledge" && <KnowledgePage {...{ version, setVersion, discovered, handleDiscover, siteUrl, setSiteUrl, visiblePages, selectedPaths, setSelectedPaths, exclude, setExclude, crawlProgress, setCrawlProgress, uploadedFiles, handleFiles, fileInput, sourceNotice, setSourceNotice, promoted, setPromoteOpen, setEmbedOpen }} />}
+            {page === "Knowledge" && <KnowledgePage {...{ version, setVersion, discovered, handleDiscover, siteUrl, setSiteUrl, visiblePages, selectedPaths, setSelectedPaths, exclude, setExclude, crawlProgress, setCrawlProgress, uploadedFiles, handleFiles, fileInput, sourceNotice, setSourceNotice, promoted, setPromoteOpen, setEmbedOpen, setDiscovered }} />}
             {page === "Overview" && <OverviewPage onNavigate={setPage} />}
             {page === "Playground" && <PlaygroundPage {...{ version, setVersion, persona, setPersona, model, setModel, temperature, setTemperature, threshold, setThreshold, inspectorOpen, setInspectorOpen, playMessages, query, setQuery, sendPlaygroundMessage, setSourceNotice }} />}
             {page === "Widget" && <WidgetPage {...{ widgetOpen, setWidgetOpen, widgetExpanded, setWidgetExpanded, widgetName, setWidgetName, widgetPlacement, setWidgetPlacement, widgetColor, setWidgetColor, widgetQuery, setWidgetQuery, widgetMessages, setWidgetMessages, setEmbedOpen }} />}
@@ -286,9 +293,9 @@ function KnowledgAI() {
 }
 
 function KnowledgePage(props: {
-  version: string; setVersion: (value: string) => void; discovered: boolean; handleDiscover: () => void; siteUrl: string; setSiteUrl: (value: string) => void; visiblePages: typeof discoveredPages; selectedPaths: string[]; setSelectedPaths: (value: string[]) => void; exclude: string; setExclude: (value: string) => void; crawlProgress: number; setCrawlProgress: (value: number) => void; uploadedFiles: string[]; handleFiles: (files: FileList | null) => void; fileInput: React.RefObject<HTMLInputElement | null>; sourceNotice: string; setSourceNotice: (value: string) => void; promoted: boolean; setPromoteOpen: (value: boolean) => void; setEmbedOpen: (value: boolean) => void;
+  version: string; setVersion: (value: string) => void; discovered: boolean; handleDiscover: () => void; siteUrl: string; setSiteUrl: (value: string) => void; visiblePages: typeof discoveredPages; selectedPaths: string[]; setSelectedPaths: (value: string[]) => void; exclude: string; setExclude: (value: string) => void; crawlProgress: number; setCrawlProgress: (value: number) => void; uploadedFiles: string[]; handleFiles: (files: FileList | null) => void; fileInput: React.RefObject<HTMLInputElement | null>; sourceNotice: string; setSourceNotice: (value: string) => void; promoted: boolean; setPromoteOpen: (value: boolean) => void; setEmbedOpen: (value: boolean) => void; setDiscovered: (value: boolean) => void;
 }) {
-  const { version, setVersion, discovered, handleDiscover, siteUrl, setSiteUrl, visiblePages, selectedPaths, setSelectedPaths, exclude, setExclude, crawlProgress, setCrawlProgress, uploadedFiles, handleFiles, fileInput, setSourceNotice, promoted, setPromoteOpen } = props;
+  const { setDiscovered, version, setVersion, discovered, handleDiscover, siteUrl, setSiteUrl, visiblePages, selectedPaths, setSelectedPaths, exclude, setExclude, crawlProgress, setCrawlProgress, uploadedFiles, handleFiles, fileInput, setSourceNotice, promoted, setPromoteOpen } = props;
   const isAllSelected = visiblePages.length > 0 && visiblePages.every(({ path }) => selectedPaths.includes(path));
   const selectedVisibleCount = visiblePages.filter(({ path }) => selectedPaths.includes(path)).length;
   const togglePath = (path: string, checked: boolean) => setSelectedPaths(checked ? [...selectedPaths, path] : selectedPaths.filter((item) => item !== path));
@@ -354,7 +361,7 @@ function PlaygroundPage(props: {
       <label className="field-label">KNOWLEDGE VERSION</label><TinySelect value={version} onValueChange={setVersion} options={["v1.1 — Help center draft", "v1.0 — Full website · Live", "v1.2 — Product docs draft"]} className="config-select" />
       <div className="config-divider" /><label className="field-label" htmlFor="system-prompt">SYSTEM PROMPT</label><Textarea id="system-prompt" className="prompt-editor" defaultValue={"You are Acme's helpful support assistant.\n\nUse only the provided knowledge to answer questions. Be clear, direct, and friendly. If the answer isn't in your sources, say so and offer to connect the visitor with our support team. Always cite your sources."} /><div className="editor-footer"><span><Code2 size={13} /> Markdown</span><span>326 tokens</span></div>
       <label className="field-label config-spaced">ASSISTANT PERSONA</label><TinySelect value={persona} onValueChange={setPersona} options={["Helpful & direct", "Formal support agent", "Friendly assistant", "Technical specialist"]} className="config-select" />
-      <div className="slider-field"><div className="slider-label"><label className="field-label">TEMPERATURE</label><span>{temperature[0].toFixed(2)}</span></div><Slider value={temperature} onValueChange={setTemperature} min={0} max={1} step={0.05} aria-label="Temperature" /><div className="range-labels"><span>Strict & factual</span><span>Creative</span></div></div>
+      <div className="slider-field"><div className="slider-label"><label className="field-label">TEMPERATURE</label><span>{(temperature[0] ?? 0).toFixed(2)}</span></div><Slider value={temperature} onValueChange={setTemperature} min={0} max={1} step={0.05} aria-label="Temperature" /><div className="range-labels"><span>Strict & factual</span><span>Creative</span></div></div>
       <div className="slider-field"><div className="slider-label"><label className="field-label">ANSWER CONFIDENCE</label><span>{threshold[0]}%</span></div><Slider value={threshold} onValueChange={setThreshold} min={50} max={95} step={1} aria-label="Answer confidence threshold" /><div className="range-labels"><span>More answers</span><span>More cautious</span></div></div>
       <label className="field-label config-spaced">LANGUAGE MODEL</label><TinySelect value={model} onValueChange={setModel} options={["GPT-4o mini", "Gemini 2.0 Flash", "Claude 3.5 Sonnet"]} className="config-select" /><div className="model-status"><span className="status-dot" /> Connected to workspace</div>
       <div className="config-button-stack"><Button onClick={() => setSourceNotice("Playground settings saved to this version")}><Check size={15} /> Save settings to version</Button><Button variant="outline" onClick={() => setSourceNotice("Version ready to promote from Knowledge & versions")}><ArrowUpRight size={15} /> Promote this version</Button></div>
