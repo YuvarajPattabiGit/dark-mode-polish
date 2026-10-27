@@ -1950,7 +1950,6 @@
 .version-select, .url-input-wrap input, .exclude-control input { color: var(--foreground); }
 .dropzone-copy strong { color: var(--foreground); }
 .production-indicator span:not(.status-dot) { color: var(--foreground); }
-.dark [data-slot="button"]:hover, .dark button:hover { --tw-text-opacity: 1; }
 @media (max-width: 560px) {
   .page-content { padding: 14px 12px 22px; }
   .updated-label { display: none; }
